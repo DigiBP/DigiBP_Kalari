@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_13sjj8h" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <decision id="Decision_Table_1" name="Decision 1">
+    <extensionElements>
+      <biodi:bounds x="157" y="81" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="inhouseproduction">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text>inhouseproduction</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1324i7b">
+          <text>"Yes","No"</text>
+        </inputValues>
+      </input>
+      <output id="output_1" label="department" name="department" typeRef="string">
+        <outputValues id="UnaryTests_0edvjbm">
+          <text>"LP","LB"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_00cowf1">
+        <inputEntry id="UnaryTests_05945em">
+          <text>"Yes"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0af8oi2">
+          <text>"LP"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_12wscyk">
+        <inputEntry id="UnaryTests_045nli0">
+          <text>"No"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q0fmju">
+          <text>"LB"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
