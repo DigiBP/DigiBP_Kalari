@@ -99,9 +99,6 @@
             <camunda:value id="supplier3" name="Supplier 3" />
             <camunda:value id="supplier4" name="Supplier 4" />
           </camunda:formField>
-          <camunda:formField id="mpq" label="Minimum procurement quantity" type="long" />
-          <camunda:formField id="sdt" label="Schedule delivery time (in Weeks)" type="long" />
-          <camunda:formField id="purchasingPrice" label="Purchasing price" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_07tsgrm</bpmn:incoming>
