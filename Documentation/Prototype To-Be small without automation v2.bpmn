@@ -31,11 +31,11 @@
         <bpmn:flowNodeRef>UserTask_08l1p6a</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IntermediateThrowEvent_1iclxd6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1xl1eor</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IntermediateThrowEvent_1pghb6x</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UserTask_1tiepsp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_0xgtvoi</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_0ogi0in</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>IntermediateThrowEvent_1pghb6x</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_14ntleu</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>UserTask_1tiepsp</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1crhxe9" name="EM">
         <bpmn:flowNodeRef>UserTask_08zzkus</bpmn:flowNodeRef>
@@ -314,6 +314,68 @@ out = JSON.stringify({
       <bpmn:incoming>SequenceFlow_052p3nu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ycfgld</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:dataStoreReference id="DataStoreReference_1bvz5c2" name="SAP" />
+    <bpmn:userTask id="UserTask_08l1p6a" name="trigger procurement">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="triggerProcurement" label="Procurement triggered?" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1huddx7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vur2zr</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1iclxd6" name="quote from supplier">
+      <bpmn:incoming>SequenceFlow_0e6h278</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1ycfgld</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1q42c8m</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_13mfn7t" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="Task_1ya9z1p" name="verify data" />
+    <bpmn:serviceTask id="Task_1xl1eor" name="order placement">
+      <bpmn:incoming>SequenceFlow_1vur2zr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_006jy1b</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1pghb6x">
+      <bpmn:incoming>SequenceFlow_006jy1b</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0n6wmbt</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_05pc3ka" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:subProcess id="UserTask_1tiepsp" name="preparation for procurement">
+      <bpmn:incoming>SequenceFlow_1q42c8m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1yl3143</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="UserTask_1b085g7" name="create material cost estimate in SAP">
+      <bpmn:incoming>SequenceFlow_1yl3143</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1huddx7</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0hcvsx6">
+        <bpmn:targetRef>DataStoreReference_1bvz5c2</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_0jbzrxq" sourceRef="StartEvent_0yy9d8b" targetRef="BusinessRuleTask_1ugn9ei" />
+    <bpmn:sequenceFlow id="SequenceFlow_1kec9oj" sourceRef="BusinessRuleTask_1ugn9ei" targetRef="UserTask_1bahz9v" />
+    <bpmn:sequenceFlow id="SequenceFlow_06fuif4" name="no" sourceRef="ExclusiveGateway_080w8sl" targetRef="UserTask_08zzkus">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${department == "LB"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1et3log" name="yes" sourceRef="ExclusiveGateway_080w8sl" targetRef="UserTask_0fkw6da">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${department == "LP"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1pbf8ba" sourceRef="UserTask_1bahz9v" targetRef="ServiceTask_1nihs0g" />
+    <bpmn:sequenceFlow id="SequenceFlow_1xwgdb3" sourceRef="ServiceTask_1nihs0g" targetRef="ExclusiveGateway_080w8sl" />
+    <bpmn:sequenceFlow id="SequenceFlow_1txy54u" sourceRef="UserTask_0fkw6da" targetRef="ServiceTask_1aqo7dg" />
+    <bpmn:sequenceFlow id="SequenceFlow_0taorfx" sourceRef="ServiceTask_1aqo7dg" targetRef="UserTask_08zzkus" />
+    <bpmn:sequenceFlow id="SequenceFlow_1v7full" name="yes" sourceRef="ExclusiveGateway_1c1dbda" targetRef="UserTask_1wgm77v">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${department == "LP"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0e6h278" name="no" sourceRef="ExclusiveGateway_1c1dbda" targetRef="IntermediateThrowEvent_1iclxd6" />
+    <bpmn:sequenceFlow id="SequenceFlow_052p3nu" sourceRef="UserTask_1wgm77v" targetRef="ServiceTask_1dn7d2z" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ycfgld" sourceRef="ServiceTask_1dn7d2z" targetRef="IntermediateThrowEvent_1iclxd6" />
+    <bpmn:sequenceFlow id="SequenceFlow_085smuo" sourceRef="ServiceTask_0ozj1ge" targetRef="ExclusiveGateway_1c1dbda" />
+    <bpmn:sequenceFlow id="SequenceFlow_1huddx7" sourceRef="UserTask_1b085g7" targetRef="UserTask_08l1p6a" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vur2zr" sourceRef="UserTask_08l1p6a" targetRef="Task_1xl1eor" />
+    <bpmn:sequenceFlow id="SequenceFlow_1yl3143" sourceRef="UserTask_1tiepsp" targetRef="UserTask_1b085g7" />
+    <bpmn:sequenceFlow id="SequenceFlow_1q42c8m" sourceRef="IntermediateThrowEvent_1iclxd6" targetRef="UserTask_1tiepsp" />
+    <bpmn:sequenceFlow id="SequenceFlow_006jy1b" sourceRef="Task_1xl1eor" targetRef="IntermediateThrowEvent_1pghb6x" />
+    <bpmn:sequenceFlow id="SequenceFlow_0n6wmbt" sourceRef="IntermediateThrowEvent_1pghb6x" targetRef="ExclusiveGateway_0xgtvoi" />
     <bpmn:userTask id="UserTask_08zzkus" name="create article in SAP">
       <bpmn:extensionElements>
         <camunda:formData>
@@ -360,31 +422,16 @@ out = JSON.stringify({
         <bpmn:targetRef>DataStoreReference_1bvz5c2</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:dataStoreReference id="DataStoreReference_1bvz5c2" name="SAP" />
-    <bpmn:userTask id="UserTask_08l1p6a" name="trigger procurement">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="triggerProcurement" label="Procurement triggered?" type="boolean" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1huddx7</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1vur2zr</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1iclxd6" name="quote from supplier">
-      <bpmn:incoming>SequenceFlow_0e6h278</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1ycfgld</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1q42c8m</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_13mfn7t" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:task id="Task_1ya9z1p" name="verify data" />
-    <bpmn:serviceTask id="Task_1xl1eor" name="order placement">
-      <bpmn:incoming>SequenceFlow_1vur2zr</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_006jy1b</bpmn:outgoing>
-    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_03yo1jl" sourceRef="UserTask_08zzkus" targetRef="ServiceTask_0ozj1ge" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0xgtvoi" name="in-house production">
       <bpmn:incoming>SequenceFlow_0n6wmbt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ic503g</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0zgkfpo</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0ogi0in" name="in-house production">
+      <bpmn:incoming>SequenceFlow_0zgkfpo</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0ibwak9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1k667sc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="UserTask_0yi2ea2" name="trigger production">
       <bpmn:extensionElements>
@@ -395,11 +442,9 @@ out = JSON.stringify({
       <bpmn:incoming>SequenceFlow_1ic503g</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_196ogii</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0ogi0in" name="in-house production">
-      <bpmn:incoming>SequenceFlow_0zgkfpo</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0ibwak9</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1k667sc</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_14ntleu">
+      <bpmn:incoming>SequenceFlow_1k667sc</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:serviceTask id="ServiceTask_1993wwr" name="post&#10;production order">
       <bpmn:extensionElements>
         <camunda:connector>
@@ -433,58 +478,13 @@ out = JSON.stringify({
       <bpmn:incoming>SequenceFlow_196ogii</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ibwak9</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1pghb6x">
-      <bpmn:incoming>SequenceFlow_006jy1b</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0n6wmbt</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_05pc3ka" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="EndEvent_14ntleu">
-      <bpmn:incoming>SequenceFlow_1k667sc</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:subProcess id="UserTask_1tiepsp" name="preparation for procurement">
-      <bpmn:incoming>SequenceFlow_1q42c8m</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1yl3143</bpmn:outgoing>
-    </bpmn:subProcess>
-    <bpmn:subProcess id="UserTask_1b085g7" name="create material cost estimate in SAP">
-      <bpmn:incoming>SequenceFlow_1yl3143</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1huddx7</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0hcvsx6">
-        <bpmn:targetRef>DataStoreReference_1bvz5c2</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </bpmn:subProcess>
-    <bpmn:sequenceFlow id="SequenceFlow_0jbzrxq" sourceRef="StartEvent_0yy9d8b" targetRef="BusinessRuleTask_1ugn9ei" />
-    <bpmn:sequenceFlow id="SequenceFlow_1kec9oj" sourceRef="BusinessRuleTask_1ugn9ei" targetRef="UserTask_1bahz9v" />
-    <bpmn:sequenceFlow id="SequenceFlow_06fuif4" name="no" sourceRef="ExclusiveGateway_080w8sl" targetRef="UserTask_08zzkus">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${department == "LB"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1et3log" name="yes" sourceRef="ExclusiveGateway_080w8sl" targetRef="UserTask_0fkw6da">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${department == "LP"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_03yo1jl" sourceRef="UserTask_08zzkus" targetRef="ServiceTask_0ozj1ge" />
-    <bpmn:sequenceFlow id="SequenceFlow_1pbf8ba" sourceRef="UserTask_1bahz9v" targetRef="ServiceTask_1nihs0g" />
-    <bpmn:sequenceFlow id="SequenceFlow_1xwgdb3" sourceRef="ServiceTask_1nihs0g" targetRef="ExclusiveGateway_080w8sl" />
-    <bpmn:sequenceFlow id="SequenceFlow_1txy54u" sourceRef="UserTask_0fkw6da" targetRef="ServiceTask_1aqo7dg" />
-    <bpmn:sequenceFlow id="SequenceFlow_0taorfx" sourceRef="ServiceTask_1aqo7dg" targetRef="UserTask_08zzkus" />
-    <bpmn:sequenceFlow id="SequenceFlow_1v7full" name="yes" sourceRef="ExclusiveGateway_1c1dbda" targetRef="UserTask_1wgm77v">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${department == "LP"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0e6h278" name="no" sourceRef="ExclusiveGateway_1c1dbda" targetRef="IntermediateThrowEvent_1iclxd6" />
-    <bpmn:sequenceFlow id="SequenceFlow_052p3nu" sourceRef="UserTask_1wgm77v" targetRef="ServiceTask_1dn7d2z" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ycfgld" sourceRef="ServiceTask_1dn7d2z" targetRef="IntermediateThrowEvent_1iclxd6" />
-    <bpmn:sequenceFlow id="SequenceFlow_085smuo" sourceRef="ServiceTask_0ozj1ge" targetRef="ExclusiveGateway_1c1dbda" />
-    <bpmn:sequenceFlow id="SequenceFlow_1huddx7" sourceRef="UserTask_1b085g7" targetRef="UserTask_08l1p6a" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vur2zr" sourceRef="UserTask_08l1p6a" targetRef="Task_1xl1eor" />
-    <bpmn:sequenceFlow id="SequenceFlow_1yl3143" sourceRef="UserTask_1tiepsp" targetRef="UserTask_1b085g7" />
-    <bpmn:sequenceFlow id="SequenceFlow_1q42c8m" sourceRef="IntermediateThrowEvent_1iclxd6" targetRef="UserTask_1tiepsp" />
-    <bpmn:sequenceFlow id="SequenceFlow_006jy1b" sourceRef="Task_1xl1eor" targetRef="IntermediateThrowEvent_1pghb6x" />
     <bpmn:sequenceFlow id="SequenceFlow_0zgkfpo" name="no" sourceRef="ExclusiveGateway_0xgtvoi" targetRef="ExclusiveGateway_0ogi0in" />
     <bpmn:sequenceFlow id="SequenceFlow_1ic503g" name="yes" sourceRef="ExclusiveGateway_0xgtvoi" targetRef="UserTask_0yi2ea2">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${department == "LP"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_196ogii" sourceRef="UserTask_0yi2ea2" targetRef="ServiceTask_1993wwr" />
     <bpmn:sequenceFlow id="SequenceFlow_0ibwak9" sourceRef="ServiceTask_1993wwr" targetRef="ExclusiveGateway_0ogi0in" />
-    <bpmn:sequenceFlow id="SequenceFlow_0n6wmbt" sourceRef="IntermediateThrowEvent_1pghb6x" targetRef="ExclusiveGateway_0xgtvoi" />
     <bpmn:sequenceFlow id="SequenceFlow_1k667sc" sourceRef="ExclusiveGateway_0ogi0in" targetRef="EndEvent_14ntleu" />
+    <bpmn:sequenceFlow id="SequenceFlow_196ogii" sourceRef="UserTask_0yi2ea2" targetRef="ServiceTask_1993wwr" />
   </bpmn:process>
   <bpmn:process id="Process_1comqri" isExecutable="false">
     <bpmn:laneSet id="LaneSet_0uaz6kt" />
@@ -538,8 +538,8 @@ out = JSON.stringify({
         <dc:Bounds x="1170" y="920" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_03yo1jl_di" bpmnElement="SequenceFlow_03yo1jl">
-        <di:waypoint x="1270" y="970" />
-        <di:waypoint x="1340" y="970" />
+        <di:waypoint x="1270" y="960" />
+        <di:waypoint x="1340" y="960" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_1c1dbda_di" bpmnElement="ExclusiveGateway_1c1dbda" isMarkerVisible="true">
         <dc:Bounds x="1545" y="812" width="50" height="50" />
@@ -579,13 +579,13 @@ out = JSON.stringify({
         <dc:Bounds x="186" y="1019" width="3074" height="120" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0xgtvoi_di" bpmnElement="ExclusiveGateway_0xgtvoi" isMarkerVisible="true">
-        <dc:Bounds x="2806" y="811" width="50" height="50" />
+        <dc:Bounds x="2806" y="812" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2805" y="870" width="52" height="27" />
+          <dc:Bounds x="2805" y="871" width="52" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_0yi2ea2_di" bpmnElement="UserTask_0yi2ea2">
-        <dc:Bounds x="2781" y="678" width="100" height="80" />
+        <dc:Bounds x="2781" y="679" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_08l1p6a_di" bpmnElement="UserTask_08l1p6a">
         <dc:Bounds x="2371" y="796" width="100" height="80" />
@@ -596,17 +596,17 @@ out = JSON.stringify({
         <di:waypoint x="2421" y="876" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1ic503g_di" bpmnElement="SequenceFlow_1ic503g">
-        <di:waypoint x="2831" y="811" />
-        <di:waypoint x="2831" y="758" />
+        <di:waypoint x="2831" y="812" />
+        <di:waypoint x="2831" y="759" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2842" y="793" width="17" height="14" />
+          <dc:Bounds x="2842" y="794" width="17" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0zgkfpo_di" bpmnElement="SequenceFlow_0zgkfpo">
-        <di:waypoint x="2856" y="836" />
-        <di:waypoint x="3066" y="836" />
+        <di:waypoint x="2856" y="837" />
+        <di:waypoint x="3066" y="837" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2955" y="818" width="13" height="14" />
+          <dc:Bounds x="2955" y="819" width="13" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Lane_0k6ox5m_di" bpmnElement="Lane_0k6ox5m" isHorizontal="true">
@@ -620,8 +620,6 @@ out = JSON.stringify({
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1vur2zr_di" bpmnElement="SequenceFlow_1vur2zr">
         <di:waypoint x="2471" y="836" />
-        <di:waypoint x="2486" y="836" />
-        <di:waypoint x="2486" y="837" />
         <di:waypoint x="2500" y="837" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Lane_0ab4k8q_di" bpmnElement="Lane_0ab4k8q" isHorizontal="true">
@@ -637,7 +635,7 @@ out = JSON.stringify({
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0kaan02_di" bpmnElement="DataOutputAssociation_0kaan02">
-        <di:waypoint x="1390" y="1010" />
+        <di:waypoint x="1390" y="1000" />
         <di:waypoint x="1390" y="1416" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0hcvsx6_di" bpmnElement="DataOutputAssociation_0hcvsx6">
@@ -655,14 +653,14 @@ out = JSON.stringify({
         <dc:Bounds x="196" y="299" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ogi0in_di" bpmnElement="ExclusiveGateway_0ogi0in" isMarkerVisible="true">
-        <dc:Bounds x="3066" y="811" width="50" height="50" />
+        <dc:Bounds x="3066" y="812" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3065" y="870" width="52" height="27" />
+          <dc:Bounds x="3065" y="871" width="52" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_196ogii_di" bpmnElement="SequenceFlow_196ogii">
-        <di:waypoint x="2881" y="718" />
-        <di:waypoint x="2920" y="718" />
+        <di:waypoint x="2881" y="719" />
+        <di:waypoint x="2920" y="719" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="DataObjectReference_1czyq0n_di" bpmnElement="DataObjectReference_1czyq0n">
         <dc:Bounds x="222" y="505" width="36" height="50" />
@@ -674,7 +672,7 @@ out = JSON.stringify({
         <dc:Bounds x="186" y="280" width="3074" height="120" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_14ntleu_di" bpmnElement="EndEvent_14ntleu">
-        <dc:Bounds x="3162" y="818" width="36" height="36" />
+        <dc:Bounds x="3162" y="819" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0udceb2_di" bpmnElement="Task_0udceb2">
         <dc:Bounds x="1566" y="299" width="100" height="80" />
@@ -728,7 +726,7 @@ out = JSON.stringify({
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_17hidl3_di" bpmnElement="DataOutputAssociation_17hidl3">
         <di:waypoint x="1030" y="750" />
-        <di:waypoint x="1030" y="1435" />
+        <di:waypoint x="1030" y="1441" />
         <di:waypoint x="1365" y="1441" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_087g5qu_di" bpmnElement="MessageFlow_087g5qu">
@@ -770,15 +768,15 @@ out = JSON.stringify({
         <di:waypoint x="2550" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_1iygej6_di" bpmnElement="MessageFlow_1iygej6">
-        <di:waypoint x="2970" y="678" />
+        <di:waypoint x="2970" y="679" />
         <di:waypoint x="2970" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0ozj1ge_di" bpmnElement="ServiceTask_0ozj1ge">
-        <dc:Bounds x="1340" y="930" width="100" height="80" />
+        <dc:Bounds x="1340" y="920" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_085smuo_di" bpmnElement="SequenceFlow_085smuo">
-        <di:waypoint x="1440" y="970" />
-        <di:waypoint x="1570" y="970" />
+        <di:waypoint x="1440" y="960" />
+        <di:waypoint x="1570" y="960" />
         <di:waypoint x="1570" y="862" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1q42c8m_di" bpmnElement="SequenceFlow_1q42c8m">
@@ -802,12 +800,12 @@ out = JSON.stringify({
         <dc:Bounds x="2500" y="797" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1993wwr_di" bpmnElement="ServiceTask_1993wwr">
-        <dc:Bounds x="2920" y="678" width="100" height="80" />
+        <dc:Bounds x="2920" y="679" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0ibwak9_di" bpmnElement="SequenceFlow_0ibwak9">
-        <di:waypoint x="3020" y="718" />
-        <di:waypoint x="3091" y="718" />
-        <di:waypoint x="3091" y="811" />
+        <di:waypoint x="3020" y="719" />
+        <di:waypoint x="3091" y="719" />
+        <di:waypoint x="3091" y="812" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_106wh4q_di" bpmnElement="MessageFlow_106wh4q">
         <di:waypoint x="1810" y="678" />
@@ -815,9 +813,7 @@ out = JSON.stringify({
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0n6wmbt_di" bpmnElement="SequenceFlow_0n6wmbt">
         <di:waypoint x="2698" y="837" />
-        <di:waypoint x="2752" y="837" />
-        <di:waypoint x="2752" y="836" />
-        <di:waypoint x="2806" y="836" />
+        <di:waypoint x="2806" y="837" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateCatchEvent_14vfarp_di" bpmnElement="IntermediateThrowEvent_1pghb6x">
         <dc:Bounds x="2662" y="819" width="36" height="36" />
@@ -827,8 +823,8 @@ out = JSON.stringify({
         <di:waypoint x="2680" y="819" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1k667sc_di" bpmnElement="SequenceFlow_1k667sc">
-        <di:waypoint x="3116" y="836" />
-        <di:waypoint x="3162" y="836" />
+        <di:waypoint x="3116" y="837" />
+        <di:waypoint x="3162" y="837" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
