@@ -162,21 +162,6 @@
             <camunda:value id="centralwh" name="Central Warehouse" />
             <camunda:value id="supplier" name="Supplier" />
           </camunda:formField>
-          <camunda:formField id="mpq" label="Minimum procurement quantity" type="long">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="sdt" label="Schedule delivery time (in Weeks)" type="long">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="purchasingPrice" label="Purchasing price" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
           <camunda:formField id="articleType" label="Type of article" type="string" />
           <camunda:formField id="valuationClass" label="Valuation class" type="string" />
           <camunda:formField id="weight" label="Weight of the article" type="string" />
@@ -242,21 +227,6 @@
             <camunda:value id="centralwh" name="Central Warehouse" />
             <camunda:value id="supplier" name="Supplier" />
           </camunda:formField>
-          <camunda:formField id="mpq" label="Minimum procurement quantity" type="long">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="sdt" label="Schedule delivery time (in Weeks)" type="long">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="purchasingPrice" label="Purchasing price" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
           <camunda:formField id="articleType" label="Type of article" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
@@ -306,9 +276,6 @@
 "inspectionplanning":inspectionplanning,
 "packaging":packaging,
 "supplier1":supplier,
-"mpq":mpq,
-"sdt":sdt,
-"purchasingPrice":purchasingPrice,
 "articleType":articleType,
 "valuationClass":valuationClass,
 "weight":weight,
@@ -396,10 +363,13 @@
           "productName": productName
 	});</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="quotationResult">
+            <camunda:outputParameter name="minimumQuantity">
               <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
-priceperUnit=object.PriceperUnit;
 minimumQuantity=object.MinimumQuantity;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="priceperUnit">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+priceperUnit=object.PriceperUnit;</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
