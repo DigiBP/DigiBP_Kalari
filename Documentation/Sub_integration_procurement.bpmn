@@ -326,7 +326,7 @@
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
-            <camunda:inputParameter name="url">https://hook.integromat.com/7ko2ipwat2txlve7ypno4bhwrjdcl8ys</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://hook.integromat.com/a4783zm7vtqdjujoonnoa486a3yt12ca</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
@@ -336,7 +336,8 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
 	  "supplier": supplier,
-          "productName": productName
+          "productName": productName,
+          "orderQuantity": orderQuantity
 	});</camunda:script>
             </camunda:inputParameter>
           </camunda:inputOutput>
@@ -371,6 +372,10 @@ minimumQuantity=object.MinimumQuantity;</camunda:script>
               <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
 priceperUnit=object.PriceperUnit;</camunda:script>
             </camunda:outputParameter>
+            <camunda:outputParameter name="earliestDelivery">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+earliestDelivery=object.earliestDelivery;</camunda:script>
+            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -392,6 +397,12 @@ priceperUnit=object.PriceperUnit;</camunda:script>
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
+          <camunda:formField id="earliestDelivery" label="Erliest Delivery possibility" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="orderQuantity" label="Order Quantity" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0oys03z</bpmn:incoming>
