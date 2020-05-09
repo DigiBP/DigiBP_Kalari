@@ -401,6 +401,11 @@ earliestDelivery2=object.earliestDelivery2;</camunda:script>
     <bpmn:userTask id="Task_1n0kcbs" name="trigger procurement">
       <bpmn:extensionElements>
         <camunda:formData>
+          <camunda:formField id="supplier" label="Supplier option 1" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="priceperUnit" label="Price offered per Unit" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
@@ -416,7 +421,11 @@ earliestDelivery2=object.earliestDelivery2;</camunda:script>
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="orderQuantity" label="Order Quantity" type="string" />
+          <camunda:formField id="supplier2" label="Supplier option 2" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="priceperUnit2" label="Price offered per Unit" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
@@ -432,6 +441,7 @@ earliestDelivery2=object.earliestDelivery2;</camunda:script>
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
+          <camunda:formField id="orderQuantity" label="Order Quantity" type="string" />
           <camunda:formField id="supplier3" label="Selection of Supplier" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
