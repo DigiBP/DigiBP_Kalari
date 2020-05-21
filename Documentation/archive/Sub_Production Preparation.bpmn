@@ -4,7 +4,7 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1ut8g6m</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="UserTask_0z5wqhs" name="preparation for production">
+    <bpmn:userTask id="UserTask_0z5wqhs" name="schedule production">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="material1" label="Material 1" type="string" />
@@ -15,15 +15,8 @@
           <camunda:formField id="amountmaterial3" label="Amount Material 3" type="string" />
           <camunda:formField id="material4" label="Material 4" type="string" />
           <camunda:formField id="amountmaterial4" label="Amount Material4" type="string" />
-          <camunda:formField id="timeproduction" label="Time frame production line required" type="enum">
-            <camunda:value id="oneweek" name="&#60; 1 week" />
-            <camunda:value id="twoweeks" name="2 weeks" />
-            <camunda:value id="fourweeks" name="4 weeks" />
-            <camunda:value id="eightweeks" name="8 weeks" />
-            <camunda:value id="twelveweeks" name="12 weeks" />
-            <camunda:value id="sixteenweeks" name="&#62; 16 weeks" />
-          </camunda:formField>
-          <camunda:formField id="date" label="Date of Entry" type="date" />
+          <camunda:formField id="timeproduction" label="Calender week production line required" type="string" />
+          <camunda:formField id="hours" label="Hours production line required" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ut8g6m</bpmn:incoming>
@@ -42,8 +35,7 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
             <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">var DateEntry = date.toString();
-out = JSON.stringify({
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
   "material1": material1,
   "amountmaterial1": amountmaterial1,
   "material2": material2,
@@ -53,8 +45,8 @@ out = JSON.stringify({
   "material4": material4,
   "amountmaterial4": amountmaterial4,
   "timeproduction": timeproduction,
-"date": date
-});</camunda:script>
+  "hours": hours,
+  });</camunda:script>
             </camunda:inputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>

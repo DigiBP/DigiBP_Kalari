@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_05w96dc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:process id="Procurement_Subprocess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0qho3wg</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0qho3wg" sourceRef="StartEvent_1" targetRef="UserTask_1w9iocn" />
+    <bpmn:endEvent id="EndEvent_13uyxrl">
+      <bpmn:incoming>SequenceFlow_1lrnh0h</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="UserTask_1w9iocn" name="create basic datasheet">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string" />
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="date" />
+          <camunda:formField id="newProduct" label="New product?" type="string" defaultValue="Yes" />
+          <camunda:formField id="inhouseproduction" label="In house production?" type="string" />
+          <camunda:formField id="productgroup" label="Product group 1 Level" type="string" />
+          <camunda:formField id="productgroup2" label="Prodcut group 2 Level" type="string" />
+          <camunda:formField id="comment" label="Comment" type="string" />
+          <camunda:formField id="testreport" label="Initial sample test report" type="boolean" />
+          <camunda:formField id="inspectionplanning" label="Inspection planning necessary?" type="boolean" />
+          <camunda:formField id="packaging" label="Packaging finished product by:" type="enum">
+            <camunda:value id="production" name="Production" />
+            <camunda:value id="centralwh" name="Central Warehouse" />
+            <camunda:value id="supplier" name="Supplier" />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0qho3wg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07tsgrm</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_07tsgrm" sourceRef="UserTask_1w9iocn" targetRef="UserTask_0hwqyhl" />
+    <bpmn:userTask id="UserTask_0hwqyhl" name="amend dispatch data LB">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="newProduct" label="New product?" type="string" defaultValue="Yes">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inhouseproduction" label="In house production?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup" label="Product group 1 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup2" label="Prodcut group 2 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Comment" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="testreport" label=" initial sample test report" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inspectionplanning" label="Inspection planning necessary?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="packaging" label="Packaging finished product by:" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+            <camunda:value id="production" name="Production" />
+            <camunda:value id="centralwh" name="Central Warehouse" />
+            <camunda:value id="supplier" name="Supplier" />
+          </camunda:formField>
+          <camunda:formField id="supplier" label="Supplier option 1" type="enum">
+            <camunda:value id="supplier1" name="Supplier 1" />
+            <camunda:value id="supplier2" name="Supplier 2" />
+            <camunda:value id="supplier3" name="Supplier 3" />
+            <camunda:value id="supplier4" name="Supplier 4" />
+          </camunda:formField>
+          <camunda:formField id="supplier2" label="Supplier option 2" type="enum">
+            <camunda:value id="supplier1" name="Supplier 1" />
+            <camunda:value id="supplier2" name="Supplier 2" />
+            <camunda:value id="supplier3" name="Supplier 3" />
+            <camunda:value id="supplier4" name="Supplier 4" />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_07tsgrm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0shzwxs</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_028rhi8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0shzwxs" sourceRef="UserTask_0hwqyhl" targetRef="UserTask_03162om" />
+    <bpmn:userTask id="UserTask_03162om" name="amend dispatch data LP">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="newProduct" label="New product?" type="string" defaultValue="Yes">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inhouseproduction" label="In house production?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup" label="Product group 1 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup2" label="Prodcut group 2 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Comment" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="testreport" label="Initial sample test report" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inspectionplanning" label="Inspection planning necessary?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="packaging" label="Packaging finished product by:" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+            <camunda:value id="production" name="Production" />
+            <camunda:value id="centralwh" name="Central Warehouse" />
+            <camunda:value id="supplier" name="Supplier" />
+          </camunda:formField>
+          <camunda:formField id="articleType" label="Type of article" type="string" />
+          <camunda:formField id="valuationClass" label="Valuation class" type="string" />
+          <camunda:formField id="weight" label="Weight of the article" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0shzwxs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0qm4gc7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0qm4gc7" sourceRef="UserTask_03162om" targetRef="UserTask_00o4wzf" />
+    <bpmn:serviceTask id="ServiceTask_1jop1pz" name="post data to SAP&#10;(spreadsheet)">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/t4zpy5ygmn0j6hdtfdmyyxmj2lhjbry5</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">var launchDate = plannedLaunch.toString();
+	out = JSON.stringify({
+
+"productName":productName,
+"plannedLaunch":plannedLaunch,
+"newProduct":newProduct,
+"inhouseproduction":inhouseproduction,
+"productgroup":productgroup,
+"productgroup2":productgroup2,
+"comment":comment,
+"testreport":testreport,
+"inspectionplanning":inspectionplanning,
+"packaging":packaging,
+"supplier1":supplier,
+"articleType":articleType,
+"valuationClass":valuationClass,
+"weight":weight,
+"articleNumber":articleNumber,
+"articleCreated":articleCreated
+	
+});</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1u7avfc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hn9sgm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1hn9sgm" sourceRef="ServiceTask_1jop1pz" targetRef="ServiceTask_1h8i6p5" />
+    <bpmn:serviceTask id="ServiceTask_06ii2li" name="send mail for quotation">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/7ko2ipwat2txlve7ypno4bhwrjdcl8ys</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
+	  "supplier": supplier
+         ,"supplier2": supplier2
+         ,"productName": productName
+	});</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_028rhi8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0eohpnp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_028rhi8" sourceRef="UserTask_0hwqyhl" targetRef="ServiceTask_06ii2li" />
+    <bpmn:endEvent id="EndEvent_0rkre55">
+      <bpmn:incoming>SequenceFlow_0eohpnp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0eohpnp" sourceRef="ServiceTask_06ii2li" targetRef="EndEvent_0rkre55" />
+    <bpmn:sequenceFlow id="SequenceFlow_1lrnh0h" sourceRef="Task_1n0kcbs" targetRef="EndEvent_13uyxrl" />
+    <bpmn:serviceTask id="ServiceTask_0jxvugm" name="send order to supplier">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/a4783zm7vtqdjujoonnoa486a3yt12ca</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
+	  "supplier_selected": supplier_selected,
+          "productName": productName,
+          "orderQuantity": orderQuantity
+	});</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1mbcxwq</bpmn:incoming>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1mbcxwq" sourceRef="Task_1n0kcbs" targetRef="ServiceTask_0jxvugm" />
+    <bpmn:serviceTask id="ServiceTask_1h8i6p5" name="get data from quotation">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/4ewwho3us97kvvtbyjmgxjahu3l5h5cl</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
+	  "supplier": supplier,
+	  "supplier2": supplier2,
+          "productName": productName
+	});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="minimumQuantity">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+minimumQuantity=object.minimumQuantity;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="priceperUnit">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+priceperUnit=object.priceperUnit;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="earliestDelivery">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+earliestDelivery=object.earliestDelivery;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="minimumQuantity2">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+minimumQuantity2=object.minimumQuantity2;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="priceperUnit2">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+priceperUnit2=object.priceperUnit2;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="earliestDelivery2">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+earliestDelivery2=object.earliestDelivery2;</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1hn9sgm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0oys03z</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0oys03z" sourceRef="ServiceTask_1h8i6p5" targetRef="Task_1n0kcbs" />
+    <bpmn:userTask id="Task_1n0kcbs" name="trigger procurement">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="supplier" label="Supplier option 1" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="priceperUnit" label="Price offered per Unit" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="minimumQuantity" label="Minimum Quantity" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="earliestDelivery" label="Erliest Delivery possibility" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="supplier2" label="Supplier option 2" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="priceperUnit2" label="Price offered per Unit" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="minimumQuantity2" label="Minimum Quantity" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="earliestDelivery2" label="Erliest Delivery possibility" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="orderQuantity" label="Order Quantity" type="string" />
+          <camunda:formField id="supplier_selected" label="Selection of Supplier" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0oys03z</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1lrnh0h</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1mbcxwq</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_00o4wzf" name="create article in SAP">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="newProduct" label="New product?" type="string" defaultValue="Yes">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inhouseproduction" label="In house production?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup" label="Product group 1 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup2" label="Prodcut group 2 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Comment" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="testreport" label="Initial sample test report" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inspectionplanning" label="Inspection planning necessary?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="packaging" label="Packaging finished product by:" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+            <camunda:value id="production" name="Production" />
+            <camunda:value id="centralwh" name="Central Warehouse" />
+            <camunda:value id="supplier" name="Supplier" />
+          </camunda:formField>
+          <camunda:formField id="articleType" label="Type of article" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="valuationClass" label="Valuation class" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="weight" label="Weight of the article" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="articleNumber" label="SAP article number" type="string" />
+          <camunda:formField id="articleCreated" label="Article in SAP created" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0qm4gc7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1u7avfc</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1u7avfc" sourceRef="UserTask_00o4wzf" targetRef="ServiceTask_1jop1pz" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Procurement_Subprocess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="209" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qho3wg_di" bpmnElement="SequenceFlow_0qho3wg">
+        <di:waypoint x="188" y="227" />
+        <di:waypoint x="220" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_13uyxrl_di" bpmnElement="EndEvent_13uyxrl">
+        <dc:Bounds x="1202" y="209" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1w9iocn_di" bpmnElement="UserTask_1w9iocn">
+        <dc:Bounds x="220" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_07tsgrm_di" bpmnElement="SequenceFlow_07tsgrm">
+        <di:waypoint x="320" y="227" />
+        <di:waypoint x="360" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0hwqyhl_di" bpmnElement="UserTask_0hwqyhl">
+        <dc:Bounds x="360" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0shzwxs_di" bpmnElement="SequenceFlow_0shzwxs">
+        <di:waypoint x="460" y="227" />
+        <di:waypoint x="510" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_03162om_di" bpmnElement="UserTask_03162om">
+        <dc:Bounds x="510" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qm4gc7_di" bpmnElement="SequenceFlow_0qm4gc7">
+        <di:waypoint x="610" y="227" />
+        <di:waypoint x="640" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1jop1pz_di" bpmnElement="ServiceTask_1jop1pz">
+        <dc:Bounds x="790" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hn9sgm_di" bpmnElement="SequenceFlow_1hn9sgm">
+        <di:waypoint x="890" y="227" />
+        <di:waypoint x="930" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_06ii2li_di" bpmnElement="ServiceTask_06ii2li">
+        <dc:Bounds x="360" y="79" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_028rhi8_di" bpmnElement="SequenceFlow_028rhi8">
+        <di:waypoint x="410" y="187" />
+        <di:waypoint x="410" y="159" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0rkre55_di" bpmnElement="EndEvent_0rkre55">
+        <dc:Bounds x="512" y="101" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0eohpnp_di" bpmnElement="SequenceFlow_0eohpnp">
+        <di:waypoint x="460" y="119" />
+        <di:waypoint x="512" y="119" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1lrnh0h_di" bpmnElement="SequenceFlow_1lrnh0h">
+        <di:waypoint x="1170" y="227" />
+        <di:waypoint x="1202" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0jxvugm_di" bpmnElement="ServiceTask_0jxvugm">
+        <dc:Bounds x="1070" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1mbcxwq_di" bpmnElement="SequenceFlow_1mbcxwq">
+        <di:waypoint x="1120" y="187" />
+        <di:waypoint x="1120" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1h8i6p5_di" bpmnElement="ServiceTask_1h8i6p5">
+        <dc:Bounds x="930" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0oys03z_di" bpmnElement="SequenceFlow_0oys03z">
+        <di:waypoint x="1030" y="227" />
+        <di:waypoint x="1070" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_14ctnst_di" bpmnElement="Task_1n0kcbs">
+        <dc:Bounds x="1070" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_00o4wzf_di" bpmnElement="UserTask_00o4wzf">
+        <dc:Bounds x="640" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1u7avfc_di" bpmnElement="SequenceFlow_1u7avfc">
+        <di:waypoint x="740" y="227" />
+        <di:waypoint x="790" y="227" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
