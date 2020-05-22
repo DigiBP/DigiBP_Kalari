@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1j3etm9" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:process id="Subprocess_Procurement_Order_Placement" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0qnhah2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_1q5tuc1">
+      <bpmn:incoming>SequenceFlow_04beexf</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_14b51vp" name="send order to supplier">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/a4783zm7vtqdjujoonnoa486a3yt12ca</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
+	  "supplier_selected": supplier_selected,
+          "productName": productName,
+          "ProductSpecification": ProductSpecification,
+          "orderQuantity": orderQuantity
+	});</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0oqd7ya</bpmn:incoming>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_1ubrc39" name="get data from quotation">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/6w5gtngnprvye148yjghfdw8422hrzvx</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
+	  "ProductSpecification": ProductSpecification,
+          "productName": productName
+	});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="minimumQuantityCheap">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+minimumQuantityCheap=object.minimumQuantityCheap;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="priceperUnitCheap">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+priceperUnitCheap=object.priceperUnitCheap;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="earliestDeliveryCheap">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+earliestDeliveryCheap=object.earliestDeliveryCheap;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="minimumQuantityFast">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+minimumQuantityFast=object.minimumQuantityFast;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="priceperUnitFast">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+priceperUnitFast=object.priceperUnitFast;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="earliestDeliveryFast">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+earliestDeliveryFast=object.earliestDeliveryFast;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="supplierFast">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+supplierFast=object.supplierFast;</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="supplierCheap">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+supplierCheap=object.supplierCheap;</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1vagd0d</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0h68tei</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_1n097np" name="trigger procurement">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="supplierCheap" label="Cheapest Supplier Quotation" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="priceperUnitCheap" label="Price offered per Unit" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="minimumQuantityCheap" label="Minimum Quantity" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="earliestDeliveryCheap" label="Erliest Delivery possibility" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="supplierFast" label="Supplier with fastest delivery" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="priceperUnitFast" label="Price offered per Unit" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="minimumQuantityFast" label="Minimum Quantity" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="earliestDeliveryFast" label="Erliest Delivery possibility" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="orderQuantity" label="Order Quantity" type="string" />
+          <camunda:formField id="supplier_selected" label="Selection of Supplier" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0h68tei</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_04beexf</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0oqd7ya</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_04beexf" sourceRef="UserTask_1n097np" targetRef="EndEvent_1q5tuc1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0oqd7ya" sourceRef="UserTask_1n097np" targetRef="ServiceTask_14b51vp" />
+    <bpmn:sequenceFlow id="SequenceFlow_0h68tei" sourceRef="ServiceTask_1ubrc39" targetRef="UserTask_1n097np" />
+    <bpmn:sequenceFlow id="SequenceFlow_0qnhah2" sourceRef="StartEvent_1" targetRef="UserTask_0tmkcyd" />
+    <bpmn:userTask id="UserTask_0tmkcyd" name="create basic datasheet">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string" />
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="date" />
+          <camunda:formField id="newProduct" label="New product?" type="string" defaultValue="Yes" />
+          <camunda:formField id="inhouseproduction" label="In house production?" type="string" />
+          <camunda:formField id="productgroup" label="Product group 1 Level" type="string" />
+          <camunda:formField id="productgroup2" label="Prodcut group 2 Level" type="string" />
+          <camunda:formField id="comment" label="Comment" type="string" />
+          <camunda:formField id="testreport" label="Initial sample test report" type="boolean" />
+          <camunda:formField id="inspectionplanning" label="Inspection planning necessary?" type="boolean" />
+          <camunda:formField id="packaging" label="Packaging finished product by:" type="enum">
+            <camunda:value id="production" name="Production" />
+            <camunda:value id="centralwh" name="Central Warehouse" />
+            <camunda:value id="supplier" name="Supplier" />
+          </camunda:formField>
+          <camunda:formField id="latestarrivaldate" label="latest arrival date" type="string" />
+          <camunda:formField id="ProductSpecification" label="Product Specification" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0qnhah2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vagd0d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1vagd0d" sourceRef="UserTask_0tmkcyd" targetRef="ServiceTask_1ubrc39" />
+    <bpmn:group id="Group_0tf9hp3" categoryValueRef="CategoryValue_0a5pflh" />
+    <bpmn:group id="Group_13sstew" categoryValueRef="CategoryValue_1xqill2" />
+  </bpmn:process>
+  <bpmn:category id="Category_0l0e0us">
+    <bpmn:categoryValue id="CategoryValue_0a5pflh" value="Can be removed when process is combined" />
+  </bpmn:category>
+  <bpmn:category id="Category_1wu8k27">
+    <bpmn:categoryValue id="CategoryValue_1xqill2" value="Review best options and place order" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Subprocess_Procurement_Order_Placement">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1q5tuc1_di" bpmnElement="EndEvent_1q5tuc1">
+        <dc:Bounds x="842" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_14b51vp_di" bpmnElement="ServiceTask_14b51vp">
+        <dc:Bounds x="710" y="143" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ubrc39_di" bpmnElement="ServiceTask_1ubrc39">
+        <dc:Bounds x="570" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1n097np_di" bpmnElement="UserTask_1n097np">
+        <dc:Bounds x="710" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_04beexf_di" bpmnElement="SequenceFlow_04beexf">
+        <di:waypoint x="810" y="290" />
+        <di:waypoint x="842" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0oqd7ya_di" bpmnElement="SequenceFlow_0oqd7ya">
+        <di:waypoint x="760" y="250" />
+        <di:waypoint x="760" y="223" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0h68tei_di" bpmnElement="SequenceFlow_0h68tei">
+        <di:waypoint x="670" y="290" />
+        <di:waypoint x="710" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qnhah2_di" bpmnElement="SequenceFlow_0qnhah2">
+        <di:waypoint x="268" y="290" />
+        <di:waypoint x="310" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0tmkcyd_di" bpmnElement="UserTask_0tmkcyd">
+        <dc:Bounds x="310" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vagd0d_di" bpmnElement="SequenceFlow_1vagd0d">
+        <di:waypoint x="410" y="290" />
+        <di:waypoint x="570" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Group_0tf9hp3_di" bpmnElement="Group_0tf9hp3">
+        <dc:Bounds x="150" y="133" width="300" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="259" y="80" width="82" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_13sstew_di" bpmnElement="Group_13sstew">
+        <dc:Bounds x="525" y="120" width="395" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="696" y="80" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_043zn2w" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:process id="Subprocess_Upload_Master_Data_SAP" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1s4z5qa</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_1may4t2" name="post data to SAP&#10;(spreadsheet)">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/t4zpy5ygmn0j6hdtfdmyyxmj2lhjbry5</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">var launchDate = plannedLaunch.toString();
+	out = JSON.stringify({
+
+"productName":productName,
+"plannedLaunch":plannedLaunch,
+"newProduct":newProduct,
+"inhouseproduction":inhouseproduction,
+"productgroup":productgroup,
+"productgroup2":productgroup2,
+"comment":comment,
+"testreport":testreport,
+"inspectionplanning":inspectionplanning,
+"packaging":packaging,
+"articleType":articleType,
+"valuationClass":valuationClass,
+"weight":weight,
+"articleNumber":articleNumber,
+"articleCreated":articleCreated
+	
+});</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1xv5ivs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1f9sfg2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_1hmfwkm" name="create article in SAP">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="newProduct" label="New product?" type="string" defaultValue="Yes">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inhouseproduction" label="In house production?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup" label="Product group 1 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productgroup2" label="Prodcut group 2 Level" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Comment" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="testreport" label="Initial sample test report" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="inspectionplanning" label="Inspection planning necessary?" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="packaging" label="Packaging finished product by:" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+            <camunda:value id="production" name="Production" />
+            <camunda:value id="centralwh" name="Central Warehouse" />
+            <camunda:value id="supplier" name="Supplier" />
+          </camunda:formField>
+          <camunda:formField id="articleType" label="Type of article" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="valuationClass" label="Valuation class" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="weight" label="Weight of the article" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="articleNumber" label="SAP article number" type="string" />
+          <camunda:formField id="articleCreated" label="Article in SAP created" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0cju0e2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1xv5ivs</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1xv5ivs" sourceRef="UserTask_1hmfwkm" targetRef="ServiceTask_1may4t2" />
+    <bpmn:userTask id="UserTask_00hdzdc" name="create basic datasheet">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string" />
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="date" />
+          <camunda:formField id="newProduct" label="New product?" type="string" defaultValue="Yes" />
+          <camunda:formField id="inhouseproduction" label="In house production?" type="string" />
+          <camunda:formField id="productgroup" label="Product group 1 Level" type="string" />
+          <camunda:formField id="productgroup2" label="Prodcut group 2 Level" type="string" />
+          <camunda:formField id="comment" label="Comment" type="string" />
+          <camunda:formField id="testreport" label="Initial sample test report" type="boolean" />
+          <camunda:formField id="inspectionplanning" label="Inspection planning necessary?" type="boolean" />
+          <camunda:formField id="packaging" label="Packaging finished product by:" type="enum">
+            <camunda:value id="production" name="Production" />
+            <camunda:value id="centralwh" name="Central Warehouse" />
+            <camunda:value id="supplier" name="Supplier" />
+          </camunda:formField>
+          <camunda:formField id="latestarrivaldate" label="latest arrival date" type="string" />
+          <camunda:formField id="ProductSpecification" label="Product Specification" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1s4z5qa</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0cju0e2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1s4z5qa" sourceRef="StartEvent_1" targetRef="UserTask_00hdzdc" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cju0e2" sourceRef="UserTask_00hdzdc" targetRef="UserTask_1hmfwkm" />
+    <bpmn:endEvent id="EndEvent_0dwqvpu">
+      <bpmn:incoming>SequenceFlow_1f9sfg2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1f9sfg2" sourceRef="ServiceTask_1may4t2" targetRef="EndEvent_0dwqvpu" />
+    <bpmn:group id="Group_12efwb0" categoryValueRef="CategoryValue_1lcqp5n" />
+    <bpmn:group id="Group_111qf0s" categoryValueRef="CategoryValue_1l9zpfs" />
+  </bpmn:process>
+  <bpmn:category id="Category_0f0mfgy">
+    <bpmn:categoryValue id="CategoryValue_1lcqp5n" value="Can be removed as soon as the process is integrated" />
+  </bpmn:category>
+  <bpmn:category id="Category_1vaq0t7">
+    <bpmn:categoryValue id="CategoryValue_1l9zpfs" value="Upload the article data to SAP" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Subprocess_Upload_Master_Data_SAP">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="239" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1may4t2_di" bpmnElement="ServiceTask_1may4t2">
+        <dc:Bounds x="590" y="217" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1hmfwkm_di" bpmnElement="UserTask_1hmfwkm">
+        <dc:Bounds x="440" y="217" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1xv5ivs_di" bpmnElement="SequenceFlow_1xv5ivs">
+        <di:waypoint x="540" y="257" />
+        <di:waypoint x="590" y="257" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_00hdzdc_di" bpmnElement="UserTask_00hdzdc">
+        <dc:Bounds x="240" y="217" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1s4z5qa_di" bpmnElement="SequenceFlow_1s4z5qa">
+        <di:waypoint x="215" y="257" />
+        <di:waypoint x="240" y="257" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0cju0e2_di" bpmnElement="SequenceFlow_0cju0e2">
+        <di:waypoint x="340" y="257" />
+        <di:waypoint x="440" y="257" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Group_12efwb0_di" bpmnElement="Group_12efwb0">
+        <dc:Bounds x="160" y="150" width="220" height="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="240" y="83" width="82" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_111qf0s_di" bpmnElement="Group_111qf0s">
+        <dc:Bounds x="430" y="150" width="360" height="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="579" y="116" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0dwqvpu_di" bpmnElement="EndEvent_0dwqvpu">
+        <dc:Bounds x="742" y="239" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1f9sfg2_di" bpmnElement="SequenceFlow_1f9sfg2">
+        <di:waypoint x="690" y="257" />
+        <di:waypoint x="742" y="257" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
