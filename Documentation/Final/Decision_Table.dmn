@@ -42,6 +42,14 @@
           <text>"Test"</text>
         </outputEntry>
       </rule>
+      <rule id="DecisionRule_0jgnf0m">
+        <inputEntry id="UnaryTests_0a80vo9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1d67cpg">
+          <text></text>
+        </outputEntry>
+      </rule>
     </decisionTable>
   </decision>
 </definitions>

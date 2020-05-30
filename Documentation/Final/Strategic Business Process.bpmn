@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_12cvwfu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:collaboration id="Collaboration_0he75h0">
+    <bpmn:participant id="Participant_186100k" name="R&#38;D Department" processRef="Process_0sv052m" />
+    <bpmn:group id="Group_0g34d0l" categoryValueRef="CategoryValue_00npb32" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_0sv052m" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_0fpjqkk">
+      <bpmn:outgoing>SequenceFlow_0vhhbn4</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_15d1a1q">
+      <bpmn:incoming>SequenceFlow_0neqpvq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:subProcess id="SubProcess_1n0u6lk" name="preparation">
+      <bpmn:incoming>SequenceFlow_0vhhbn4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o0bgm2</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_06gji6q" name="initial procurement process">
+      <bpmn:incoming>SequenceFlow_0o0bgm2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18gwpoy</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_06ifoih" name="endcontrol">
+      <bpmn:incoming>SequenceFlow_18gwpoy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0neqpvq</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_0vhhbn4" sourceRef="StartEvent_0fpjqkk" targetRef="SubProcess_1n0u6lk" />
+    <bpmn:sequenceFlow id="SequenceFlow_0neqpvq" sourceRef="SubProcess_06ifoih" targetRef="EndEvent_15d1a1q" />
+    <bpmn:sequenceFlow id="SequenceFlow_0o0bgm2" sourceRef="SubProcess_1n0u6lk" targetRef="SubProcess_06gji6q" />
+    <bpmn:sequenceFlow id="SequenceFlow_18gwpoy" sourceRef="SubProcess_06gji6q" targetRef="SubProcess_06ifoih" />
+  </bpmn:process>
+  <bpmn:category id="Category_1jvoou9">
+    <bpmn:categoryValue id="CategoryValue_00npb32" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0he75h0">
+      <bpmndi:BPMNShape id="Participant_186100k_di" bpmnElement="Participant_186100k" isHorizontal="true">
+        <dc:Bounds x="157" y="80" width="843" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_0fpjqkk_di" bpmnElement="StartEvent_0fpjqkk">
+        <dc:Bounds x="222" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_15d1a1q_di" bpmnElement="EndEvent_15d1a1q">
+        <dc:Bounds x="922" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_1n0u6lk_di" bpmnElement="SubProcess_1n0u6lk">
+        <dc:Bounds x="347" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_06gji6q_di" bpmnElement="SubProcess_06gji6q">
+        <dc:Bounds x="541" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_06ifoih_di" bpmnElement="SubProcess_06ifoih">
+        <dc:Bounds x="735" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0g34d0l_di" bpmnElement="Group_0g34d0l">
+        <dc:Bounds x="507" y="111" width="160" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vhhbn4_di" bpmnElement="SequenceFlow_0vhhbn4">
+        <di:waypoint x="258" y="170" />
+        <di:waypoint x="347" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0neqpvq_di" bpmnElement="SequenceFlow_0neqpvq">
+        <di:waypoint x="835" y="170" />
+        <di:waypoint x="922" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o0bgm2_di" bpmnElement="SequenceFlow_0o0bgm2">
+        <di:waypoint x="447" y="170" />
+        <di:waypoint x="541" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_18gwpoy_di" bpmnElement="SequenceFlow_18gwpoy">
+        <di:waypoint x="641" y="170" />
+        <di:waypoint x="735" y="170" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
