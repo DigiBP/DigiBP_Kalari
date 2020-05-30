@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0gogbi6" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
   <bpmn:collaboration id="Protot3">
-    <bpmn:participant id="Participant_1ypf3ig" name="RN" processRef="Process_test" />
+    <bpmn:participant id="Participant_1ypf3ig" name="RN" processRef="Initial_procurement_process_As-Is_Digital" />
     <bpmn:participant id="Participant_1abdaf1" name="R&#38;D Department" processRef="Process_1comqri" />
     <bpmn:messageFlow id="MessageFlow_0rgxymd" sourceRef="Participant_1abdaf1" targetRef="StartEvent_0yy9d8b" />
     <bpmn:group id="Group_10xryx9" categoryValueRef="CategoryValue_0lzs2xd" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_test" isExecutable="true">
+  <bpmn:process id="Initial_procurement_process_As-Is_Digital" isExecutable="true">
     <bpmn:laneSet id="LaneSet_00ie5ts">
       <bpmn:lane id="Lane_0ab4k8q" name="ET">
         <bpmn:flowNodeRef>UserTask_1noj8a3</bpmn:flowNodeRef>

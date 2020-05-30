@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0gogbi6" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:process id="TriggerProduction" isExecutable="true">
+    <bpmn:serviceTask id="Task_1uu3k2n" name="Send order to production">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/k7w1tm2e5cqj6umfd18rwad1g6vkb66w</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
+  "hours": hours,
+  "productName": productName,
+  "productioncw": productioncw,
+  "ProductSpecification": ProductSpecification
+  });</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_09l481r</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_170dgih</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_06eahrx" name="Trigger production">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="productName" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ProductSpecification" label="Product Specification" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="hours" label="Hours production line required" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productioncw" label="Production CW" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ajv2q1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_09l481r</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_09l481r" sourceRef="UserTask_06eahrx" targetRef="Task_1uu3k2n" />
+    <bpmn:endEvent id="EndEvent_1i2rh0f">
+      <bpmn:incoming>SequenceFlow_170dgih</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_170dgih" sourceRef="Task_1uu3k2n" targetRef="EndEvent_1i2rh0f" />
+    <bpmn:startEvent id="StartEvent_01sxlu6">
+      <bpmn:outgoing>SequenceFlow_0hk5rak</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="UserTask_02qokwa" name="Schedule production">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="material1" label="Material 1" type="string" />
+          <camunda:formField id="amountmaterial1" label="Amount Material 1" type="string" />
+          <camunda:formField id="material2" label="Material 2" type="string" />
+          <camunda:formField id="amountmaterial2" label="Amount Material 2" type="string" />
+          <camunda:formField id="material3" label="Material 3" type="string" />
+          <camunda:formField id="amountmaterial3" label="Amount Material 3" type="string" />
+          <camunda:formField id="material4" label="Material 4" type="string" />
+          <camunda:formField id="amountmaterial4" label="Amount Material4" type="string" />
+          <camunda:formField id="hours" label="Hours production line required" type="string" />
+          <camunda:formField id="productName" label="Product Name" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ProductSpecification" label="Product Specification" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="productioncw" label="Production CW" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1rxst9s</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0g2xrl5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_1vzemxi" name="Post data to production preparation">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/26ik11igukzsopna9mt4ks748jbltvaw</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
+  "material1": material1,
+  "amountmaterial1": amountmaterial1,
+  "material2": material2,
+  "amountmaterial2": amountmaterial2,
+  "material3": material3,
+  "amountmaterial3": amountmaterial3,
+  "material4": material4,
+  "amountmaterial4": amountmaterial4,
+  "hours": hours,
+  "productName": productName,
+  "ProductSpecification": ProductSpecification,
+  "plannedLaunch": plannedLaunch,
+  "productioncw": productioncw
+  });</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0g2xrl5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ajv2q1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_08zxid9" name="Enter product data">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="productName" label="Product Name" type="string" />
+          <camunda:formField id="ProductSpecification" label="Product Specification" type="string" />
+          <camunda:formField id="plannedLaunch" label="Planned product launch" type="string" />
+          <camunda:formField id="productioncw" label="Production CW" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0hk5rak</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1rxst9s</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0hk5rak" sourceRef="StartEvent_01sxlu6" targetRef="UserTask_08zxid9" />
+    <bpmn:sequenceFlow id="SequenceFlow_1rxst9s" sourceRef="UserTask_08zxid9" targetRef="UserTask_02qokwa" />
+    <bpmn:sequenceFlow id="SequenceFlow_0g2xrl5" sourceRef="UserTask_02qokwa" targetRef="ServiceTask_1vzemxi" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ajv2q1" sourceRef="ServiceTask_1vzemxi" targetRef="UserTask_06eahrx" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TriggerProduction">
+      <bpmndi:BPMNShape id="ServiceTask_1wb1b2w_di" bpmnElement="Task_1uu3k2n">
+        <dc:Bounds x="850" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_06eahrx_di" bpmnElement="UserTask_06eahrx">
+        <dc:Bounds x="700" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09l481r_di" bpmnElement="SequenceFlow_09l481r">
+        <di:waypoint x="800" y="120" />
+        <di:waypoint x="850" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1i2rh0f_di" bpmnElement="EndEvent_1i2rh0f">
+        <dc:Bounds x="1002" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_170dgih_di" bpmnElement="SequenceFlow_170dgih">
+        <di:waypoint x="950" y="120" />
+        <di:waypoint x="1002" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_01sxlu6_di" bpmnElement="StartEvent_01sxlu6">
+        <dc:Bounds x="159" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_02qokwa_di" bpmnElement="UserTask_02qokwa">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1vzemxi_di" bpmnElement="ServiceTask_1vzemxi">
+        <dc:Bounds x="550" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_08zxid9_di" bpmnElement="UserTask_08zxid9">
+        <dc:Bounds x="240" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0hk5rak_di" bpmnElement="SequenceFlow_0hk5rak">
+        <di:waypoint x="195" y="120" />
+        <di:waypoint x="240" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1rxst9s_di" bpmnElement="SequenceFlow_1rxst9s">
+        <di:waypoint x="340" y="120" />
+        <di:waypoint x="400" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0g2xrl5_di" bpmnElement="SequenceFlow_0g2xrl5">
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="550" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ajv2q1_di" bpmnElement="SequenceFlow_0ajv2q1">
+        <di:waypoint x="650" y="120" />
+        <di:waypoint x="700" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
